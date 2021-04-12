@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NGB / CS:GO / Турниры</title>
+    <meta name="Description" content="NGB - Единая система кланов, игроков, кланваров, чемпионатов, mix-игр."/>
+    <meta name="keywords" content="ngb.one, ngb, команды cs, csgo, fifa20, valorant, netgame browser, список команд, кланвары, матчи, турниры, рейтинг комнд" />
+    <link rel="stylesheet" href="https://dl.ngb.one/league/assets_v3/css/style.css">
+    <link rel="stylesheet" href="https://dl.ngb.one/league/assets_v3/css/media.css">
+    <link rel="stylesheet" href="https://dl.ngb.one/league/assets_v3/css/style-old.css">
+    <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+</head>
+<body>
+<div id="app">
+    <div class="page">
+        <div class="page__sidebar sidebar">
+            <div class="sidebar__box">
+                <a href="#" class="sidebar__logo">
+                    <img class="img" src="https://dl.ngb.one/league/assets_v3/img/logo.svg" alt="NGB">
+                </a>
+                <nav class="sidebar__games games">
+                                        <div class="games__item">
+                        <a href="/csgo/" class="games__link">
+                            <img class="games__img" src="https://dl.ngb.one/league/assets_v3/img/csgo_active.svg" alt="Counter-Strike: GO">
+                        </a>
+                    </div>
+                                        <div class="games__item">
+                        <a href="/css34/" class="games__link">
+                            <img class="games__img" src="https://dl.ngb.one/league/assets_v3/img/css34.svg" alt="Counter-Strike: Source (v34)">
+                        </a>
+                    </div>
+                                    </nav>
+            </div>
+            <div class="sidebar__column">
+                <div class="sidebar__text games-info">
+                    <span class="games-info__name" style="line-height: 30px">Counter-Strike: GO</span>
+                    </div>
+                <nav class="sidebar__navigation navigation">
+                    <ul class="navigation__list">
+                        <li class="navigation__list-item navigation__list-item_mian">
+                            <a class="link navigation__link icon-main " href="/csgo/">Главная</a>
+                        </li>
+                        <li class="navigation__list-item">
+                            <a class="link navigation__link icon-tur navigation__link_active icon-tur_active" href="/csgo/tournaments">Турниры</a>
+                        </li>
+                                                                                                            <li class="navigation__list-item">
+                            <a class="link navigation__link icon-teams " href="/csgo/rating">Команды</a>
+                        </li>
+                                                <li class="navigation__list-item">
+                            <a class="link navigation__link icon-players " href="/csgo/players">Игроки</a>
+                        </li>
+                        <li class="navigation__list-item">
+                            <a class="link navigation__link icon-matches " href="/csgo/clanwars">Матчи</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="page__box">
+            <!--
+            <div class="top-error-box">
+        	<span style="color: #33ef8a">Идет трансляция турнира CS:GO NGB Winter Fest'21</span><br/>
+                <a href="https://twitch.tv/ngb_one" class="info-link link">https://twitch.tv/ngb_one</a>
+            </div>
+-->
+            <header class="page__header header">
+                <div class="header__menu">
+                    <button class="header__btn" @click="toggleHeaderMenu = !toggleHeaderMenu"></button>
+                    <div class="header__mob" :class="toggleHeaderMenu ? 'active' : ''">
+                        <form class="header__search-mob search" method="get" action="/csgo/search">
+                            <div class="search__content">
+                                <div class="search__inputbox">
+                                    <input id="search-area" class="search__input" type="text" name="q" required="" autocomplete="off">
+                                    <label for="search-area" class="search__label">Поиск игрока или команды</label>
+                                    <button class="search__btn">Найти</button>
+                                </div>
+                            </div>
+                        </form>
+                        <nav class="header__games games">
+                                                        <div class="games__item">
+                                <a href="/csgo/" class="games__link">
+                                    <img class="games__img" src="https://dl.ngb.one/league/assets_v3/img/csgo_active.svg" alt="Counter-Strike: GO">
+                                </a>
+                                <a href="/csgo/" class="header__games-info games-info link">
+                                    <span class="games-info__name">Counter-Strike: GO</span>
+                                    </a>
+                            </div>
+                                                        <div class="games__item">
+                                <a href="/css34/" class="games__link">
+                                    <img class="games__img" src="https://dl.ngb.one/league/assets_v3/img/css34.svg" alt="Counter-Strike: Source (v34)">
+                                </a>
+                                <a href="/css34/" class="header__games-info games-info link">
+                                    <span class="games-info__name">Counter-Strike: Source (v34)</span>
+                                    </a>
+                            </div>
+                                                    </nav>
+                        <div class="header__footer">
+                            <div class="header__social">
+                                <a href="https://twitch.tv/ngb_one" class="header__icon"><img class="img" src="https://dl.ngb.one/league/assets_v3/img/social__twitch.svg" alt="TWITCH"></a>
+                                <a href="https://vk.com/ngb_one" class="header__icon"><img class="img" src="https://dl.ngb.one/league/assets_v3/img/social__vk.svg" alt="VK"></a>
+                                <a href="https://cyberline.club" target="_blank" class="header__icon"><img class="img" src="https://dl.ngb.one/league/assets_v3/img/cyberline.svg" alt="Cyberline"></a>
+                            </div>
+                            <span class="header__copyright">© NGB.League, 2017—2020. Crafted by <a href="https://vk.com/freemy" class="info-link link" target="_blank">Freemy</a> from Penza City</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header__logo"><img class="header__logo-img img" src="https://dl.ngb.one/league/assets_v3/img/logo.svg" alt="NGB"></div>
+                <form class="header__search search" method="get" action="/csgo/search">
+                    <div class="search__content">
+                        <div class="search__inputbox">
+                            <input id="search" class="search__input" type="text" name="q" required="">
+                            <label for="search" class="search__label" autocomplete="off">Поиск игрока или команды</label>
+                            <button class="search__btn">Найти</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="header__item">
+                                                <a href="/csgo/player3946" class="header__user">
+                                                <img src="https://dl.ngb.one/ngb/avatars/100/db36a2eabf1628a0939fadccbcf9f0ff.jpg" class="header__user-img img" />
+                                    </a>
+                                    </div>
+            </header>
+            <div class="page__main">
+
+                                        <div class="tour-list main-container">
+    <h1 class="tour-list_title title">
+        Турниры Counter-Strike: GO
+            </h1>
+    <div class="tour-list__box">
+
+        <div class="tour-list__table-tickets tickets grid grid_3">
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/51" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/csgo_holder.png" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/51" class="link">EZ KATKA FINAL STAGE DAY 2</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                28.03 &ndash; 29.03</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">LAN</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/51/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/748696373f88703467014e714e97daa4_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/81b3289355e758f2ed89e229544bac23_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                    
+                        </div>
+                        <span class="ticket__value-team">3/3</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/50" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/csgo_holder.png" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/50" class="link">EZ KATKA FINAL STAGE DAY 1</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                27.03 &ndash; 28.03</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">LAN</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/50/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/bb7a8e898fba5cf9823b460b5cd35b1c_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/455e3bd90d156578f5c8320ac86e03c3_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/748696373f88703467014e714e97daa4_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/82d31ccce84ec3edc80734332d371d52_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/6bc04845f43966069d22cf3ef68cdebf_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/81b3289355e758f2ed89e229544bac23_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                    
+                        </div>
+                        <span class="ticket__value-team">8/8</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/49" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/csgo_holder.png" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">2x2</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/49" class="link">EZKATKA LAN CUP 2x2 [Новокуйбышевск]</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                21.03</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">LAN</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/49/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/b9373c05d6d46d7fb0da1798e91dba28_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/9c6640794ca8f8d636ae54fe60beaf39_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/9c73bfbe22f881fdc4a25b8b38f1f70e_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/35523ab87293069dc365a558982f8281_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/3bfa6a05bcb2f1fb9ac5bd6f7bf3a73f_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="ticket__value-teams">+12</span>
+                            
+                        </div>
+                        <span class="ticket__value-team">20/20</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/48" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/csgo_holder.png" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/48" class="link">EZKATKA LKL [SAMARA FINAL STAGE]</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                16.02</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">Online</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/48/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/58184262e8f9935f5a7a9d7af2eb5944_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/ba7b3e81d253288cc3e07e5168430c1e_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/6bc04845f43966069d22cf3ef68cdebf_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                    
+                        </div>
+                        <span class="ticket__value-team">4/4</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/47" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/tournament47.jpg?2" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/47" class="link">NGB Winter Fest&#039;21</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                27.02 &ndash; 28.02</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">LAN</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">1500.00руб.</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/47/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/884c277c06bd1bc1a868ba40b0399cf7_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/6e9aedefbda079f0fd044a2b5dc41840_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/7b0ba57fbfa4f0696baca206b7d90fab_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/63d3f1d4b9ac2fce66e90271db161ade_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/6cef72c2faf180c03bf025baac2a4661_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/c406ded00940ccaea1f3eeebc110163d_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/41f3f223b922a7471c720913a0b7907b_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <span class="ticket__value-teams">+8</span>
+                            
+                        </div>
+                        <span class="ticket__value-team">16/16</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/46" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/tournament46.jpg" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/46" class="link">EZKATKA LKL [PENZA FINAL STAGE]</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                07.02</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">LAN</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/46/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/82d31ccce84ec3edc80734332d371d52_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/3ebd1aa0d00d3ceddbcf134bb94ad926_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/748696373f88703467014e714e97daa4_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/81b3289355e758f2ed89e229544bac23_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                    
+                        </div>
+                        <span class="ticket__value-team">4/4</span>
+                    </a>
+                    <span class="ticket__text">EZKatka</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/45" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/csgo_holder.png" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/45" class="link">Кибертурнир посвященный 5-ти летию ССК Беркут</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                19.12 &ndash; 20.12</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">Online</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/45/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/d5bd5966edf3045a6a7ed4cd22a0b63a_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/70a50d769388ecb0276da04baadeac8d_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/4942e0cd44e7e7193ec7594f0f394da8_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/68f702ff487b946268753f08ae075f84_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/c9159f297f1296c5f55d24a62af5d4ac_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                    
+                        </div>
+                        <span class="ticket__value-team">7/7</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/44" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/csgo_holder.png" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/44" class="link">EZKATKA LKL [ONLINE STAGE]</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                20.12 &ndash; 20.02</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">Online</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/44/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/9cc786636947947ef9ad01c3bf078b3e_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/68116843a859654751e09e3e3430bc66_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/9bfa5962a470b283fb9fa79b52ddb500_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/ad5e0eb25b69954da53b90d732117aaa_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                    
+                        </div>
+                        <span class="ticket__value-team">6/16</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                        <div class="tickets__item grid__item ticket">
+                <div class="ticket__header">
+                    <div class="ticket__headerbox">
+                        <a href="/csgo/tournament/43" class="ticket__picbox">
+                            <img class="ticket__img img" src="https://dl.ngb.one/ngb/tournament43.jpg" alt="">
+                        </a>
+                                                    <span class="ticket__status ticket__status_over">Завершен</span>
+                                                <span class="ticket__team-status">5x5</span>
+                    </div>
+                </div>
+                <h2 class="ticket__title title"><a href="/csgo/tournament/43" class="link">EZKATKA 2x2 WINGMAN LEAGUE</a></h2>
+                <div class="ticket__info">
+                    <div class="ticket__items">
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Когда</span>
+                            <span class="ticket__value">
+                                04.12 &ndash; 28.12</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Где</span>
+                            <span class="ticket__value">Online</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Взнос</span>
+                            <span class="ticket__value">Бесплатно</span>
+                        </div>
+                        <div class="ticket__item">
+                            <span class="ticket__info-title">Награда</span>
+                            <span class="ticket__value">Призы и подарки</span>
+                        </div>
+                    </div>
+                    <a href="/csgo/tournament/43/participants" class="ticket__teams link">
+                        <div class="ticket__teams-box">
+                            
+                                                                                    <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/f7b786d9d02e865e71d773e878b0d4e6_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/a80dad64c69932bd7f64e8091c6c37df_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/assets_v3/img/no_avatar.png" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                <div class="ticket__pic-team">
+                                    <img src="https://dl.ngb.one/league/avatars/clans/548608431f3109c83b3e1570356539a0_small.jpg" class="ticket__team-img img&quot;" />
+
+                            </div>
+                                                                                                                                                                                                                                <span class="ticket__value-teams">+2</span>
+                            
+                        </div>
+                        <span class="ticket__value-team">10/0</span>
+                    </a>
+                    <span class="ticket__text">NGB.One</span>
+                </div>
+            </div>
+                    </div>
+
+        <div class="pagination">
+             <a class="pagination__item link pagination__item_active">1</a> <a href="/csgo/tournaments?page=2" class="pagination__item link"> 2 </a> <a href="/csgo/tournaments?page=3" class="pagination__item link"> 3 </a> <a href="/csgo/tournaments?page=4" class="pagination__item link"> 4 </a> <a href="/csgo/tournaments?page=5" class="pagination__item link"> 5 </a> 
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <footer class="footer">
+            <span class="footer__copyright">© NGB.League, 2017—2020. Crafted by <a href="https://vk.com/freemy" class="info-link link" target="_blank">Freemy</a> from Penza City</span>
+            <div class="footer__social">
+                <a href="https://twitch.tv/ngb_one" class="footer__icon"><img class="img" src="https://dl.ngb.one/league/assets_v3/img/social__twitch.svg" alt="TWITCH"></a>
+                <a href="https://vk.com/ngb_one" class="footer__icon"><img class="img" src="https://dl.ngb.one/league/assets_v3/img/social__vk.svg" alt="VK"></a>
+                <a href="https://cyberline.club" target="_blank" class="footer__icon"><img class="img" src="https://dl.ngb.one/league/assets_v3/img/cyberline.svg" alt="Cyberline"></a>
+            </div>
+        </footer>
+
+    </div>
+    <modal-box></modal-box>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://dl.ngb.one/league/assets_v3/scripts/main.js"></script>
+<script>
+    var GAMECODE = 'csgo';
+    var BASE_URL = '/csgo';
+    var ASSETS_URL = 'https://dl.ngb.one/league/assets_v3/';
+</script>
+
+<!-- Yandex.Metrika counter --> <script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter46526088 = new Ya.Metrika({ id: 46526088, clickmap:true, trackLinks:true, accurateTrackBounce:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/46526088" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+</body>
+</html>
