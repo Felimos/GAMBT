@@ -1,0 +1,272 @@
+Vue.component('play', {
+    template: '<div>\n' +
+        '<div class="modal__box">' +
+        '   <div v-if="step == 0">' +
+        '       <h4 class="modal__title title">Сыграть матч</h4>\n' +
+        '        <div class="modal__content">\n' +
+        '            <span class="modal__text">' +
+        '           Выберите, какую вы хотите сыграть игру. После этого укажите дополниетельные параметры матча и ждите ответа от противника.' +
+        '           </span>\n' +
+        '        </div>' +
+        '   </div>' +
+        '   <div v-if="step == 11">' +
+                '<h4 class="modal__title title">Матч с командой</h4>\n' +
+        '        <div class="modal__content">\n' +
+                    '<div class="search__inputbox">' +
+        '               <input id="search" type="text" name="q" required="required" class="search__input" v-model="searchTeamQuery">' +
+        '               <label for="search" autocomplete="off" class="search__label">Поиск команды</label>' +
+        '               <button class="search__btn">Найти</button>' +
+        '           </div>'+
+        '        </div>' +
+        '   </div>' +
+            '<div v-if="step == 12">' +
+                '<h4 class="modal__title title">Матч с командой</h4>\n' +
+        '        <div class="modal__content">' +
+        '        Выберите карту' +
+        '        </div>\n' +
+            '</div>' +
+            '<div v-if="step == 21">' +
+                '<h4 class="modal__title title">Mix - игры</h4>\n' +
+        '        <div class="modal__content">\n' +
+        '            <span class="modal__text">Mix - игры в разработке. Скоро заведем ...</span>\n' +
+        '            <button class="modal__btn btn" @click="setStep(0)">Назад</button>\n' +
+        '        </div>\n' +
+            '</div>' +
+        '</div>' +
+        '    <div class="modal__items" v-if="step == 0">\n' +
+        '        <span class="modal__item modal__icon-steam" @click="setStep(11)">Матч с командой</span>\n' +
+        '        <span class="modal__item modal__icon-server" @click="setStep(21)">Mix - игра</span>\n' +
+        '    </div>\n' +
+        '</div>',
+    methods: {
+        setStep(step) {
+            this.step = step;
+        },
+        searchTeam(query) {
+            axios.get(BASE_URL + '/search/teams', {query}).then((response) => {
+                this.foundTeams = response.data;
+            });
+        },
+    },
+    watch: {
+      searchTeam: function (value) {
+          if (value.length > 2) {
+              this.searchTeam(value);
+          }
+      },
+    },
+    data() {
+        return {
+            step: 0,
+            searchTeamQuery: '',
+            foundTeams: [],
+        };
+    },
+});
+
+Vue.component('map-scratch', {
+    template: '<div class="modal__content pick-ban">\n' +
+        '    <span class="pick-ban__title" v-if="boType > 0">Формат игры: BO{{ boType }}</span><br/>\n' +
+        '    <span class="pick-ban__title" v-if="!done">{{ getScratchType() }} команда "{{ nextClanName }}" <span v-if="availableScratch">(вы)</span></span>\n' +
+        '    <div class="pick-ban__items">\n' +
+        '        <div class="pick-ban__item" v-for="map in mapsPoolTotal" @click="doScratch(map)">\n' +
+        '            <span class="pick-ban__team pick-ban__status" v-if="getFinalMap(map)">PLAY!</span>\n' +
+        '            <span class="pick-ban__team">{{ getTeamNameIfMapScratched(map) }}</span>\n' +
+        '            <span class="pick-ban__type">{{ getScratchTypeIfMapScratched(map) }}</span>\n' +
+        '            <span class="pick-ban__map">{{ map }}</span>\n' +
+        '            <div :class="getMapClassList(map)" :style="getBackgroundMapStyle(map)">\n' +
+        '            </div>\n' +
+        '        </div>\n' +
+        '    </div>\n' +
+        '</div>',
+    methods: {
+        loadScratchStats() {
+            axios.get(BASE_URL + '/clanwar' + this.matchId + '/map_vote').then((response) => {
+                this.boType = response.data.boType;
+                this.availableScratch = response.data.availableScratch;
+                this.roundType = response.data.roundType;
+                this.round = response.data.round;
+                this.nextClanName = response.data.nextClanName;
+                this.mapsPoolTotal = response.data.mapsPoolTotal;
+                this.mapsPool = response.data.mapsPool;
+                this.mapsChosen = response.data.mapsChosen;
+                this.done = response.data.done;
+                this.resultMap = response.data.resultMap;
+            });
+        },
+
+        getMapClassList(map) {
+            var classList = [
+                'pick-ban__pic',
+            ];
+            if (typeof this.mapsChosen[map] === "undefined") {
+                classList.push('pick-ban__pic_active');
+            }
+
+            return classList;
+        },
+
+        getBackgroundMapStyle(map) {
+            return {
+                'background-image': 'url('+ ASSETS_URL +'img/maps/'+ GAMECODE +'/'+ map +'.jpg)',
+            }
+        },
+
+        getScratchType() {
+            if (this.roundType === "pick") {
+                return "Пикает";
+            } else if (this.roundType === "ban") {
+                return "Банит";
+            } else {
+                return null;
+            }
+        },
+
+        getTeamNameIfMapScratched(map) {
+            if (this.mapsChosen[map]) {
+                return this.mapsChosen[map]['clanName'];
+            } else {
+                return '';
+            }
+        },
+
+        getScratchTypeIfMapScratched(map) {
+            if (this.mapsChosen[map]) {
+                return this.mapsChosen[map]['scratchType'];
+            } else {
+                return '';
+            }
+        },
+
+        getFinalMap(map) {
+            return (this.done && this.resultMap == map)
+        },
+
+        doScratch(map) {
+            if (this.done) {
+                return
+            }
+
+            if (!this.availableScratch) {
+                return;
+            }
+
+            axios.post(BASE_URL + '/clanwar' + this.matchId + '/map_vote', {
+                map,
+                round: this.round,
+            });
+        },
+    },
+    mounted() {
+        this.loadScratchStats();
+        this.timer = setInterval(this.loadScratchStats, 1000);
+    },
+    beforeDestroy() {
+        clearInterval(this.timer);
+        this.timer = null;
+    },
+    props: ['matchId'],
+    data() {
+        return {
+            timer: null,
+
+            boType: 0,
+            availableScratch: false,
+            round: 0,
+            roundType: '',
+            nextClanName: '',
+            mapsPoolTotal: [],
+            mapsPool: [],
+            mapsChosen: [],
+            done: false,
+            resultMap: '',
+        };
+    },
+});
+
+Vue.component('modal-box', {
+    template: '<div class="modal" :style="{display: modalShown}">' +
+        '    <button class="modal__close" @click="$root.closeModal"></button>\n' +
+        '    <component :is="{template: body}" v-if="body"/> ' +
+        '</div>',
+    data() {
+        return {
+            body: '',
+        };
+    },
+    computed: {
+        modalShown() {
+            return this.$root.modalOpened == true ? 'block' : 'none';
+        },
+    },
+    watch: {
+        '$root.modalOpened': function (opened) {
+            if (opened) {
+                axios.get(BASE_URL + '/modal/' + this.$root.modalName).then((response) => {
+                    this.body = response.data;
+                });
+            } else {
+                this.body = '';
+            }
+        },
+    },
+});
+Vue.component('servers-block', {
+    template: '<div>' +
+        '<div class="players__item" v-for="server in servers">\n' +
+        '    <div class="players__position">{{ server.id }}</div>\n' +
+        '\n' +
+        '    <span href="/" class="players__name players__player-name">\n' +
+        '        <span class="players__text" style="margin-left: 0">{{ server.title }}</span>\n' +
+        '    </span>\n' +
+        '    <span class="players__name">\n' +
+        '        <span class="players__text" style="margin-left: 0">{{ server.address }}</span>\n' +
+        '    </span>\n' +
+        '\n' +
+        '    <div class="players__name">{{ server.map }}</div>\n' +
+        '    <div class="palyer__value">{{ server.players }} / {{ server.playersMax }}</div>\n' +
+        '</div>' +
+    '</div>',
+    props: ['ngb_stats_ids'],
+    data() {
+        return {
+            servers: [],
+        };
+    },
+    mounted() {
+        axios.get('https://ngb-stats.com/api/servers/filter', {
+            params: {
+                ids: this.ngb_stats_ids
+            }
+        }).then((response) => {
+           this.servers = response.data.servers;
+        });
+    }
+});
+
+
+new Vue({
+    el: '#app',
+    methods: {
+        modal(modalName) {
+            this.modalOpened = true;
+            this.modalName = modalName;
+
+            document.body.classList.add('modal-on')
+        },
+        closeModal() {
+            this.$root.modalOpened = false;
+            this.$root.modalName = '';
+
+            document.body.classList.remove('modal-on')
+        },
+    },
+    data() {
+        return {
+            modalOpened: false,
+            modalName: '',
+            toggleHeaderMenu: false,
+            togglePageCalendar: false,
+        }
+    },
+})
